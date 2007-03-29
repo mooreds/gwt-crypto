@@ -2,7 +2,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.googlecode.gwt.crypto</groupId>
 	<artifactId>gwt-crypto</artifactId>
-	<version>1.0.0</version>
+	<version>1.0.1-SNAPSHOT</version>
 	<name>GWT Crypto</name>
 	<description>
 		A partial port of the Bouncycastle J2ME crypto library with
@@ -47,9 +47,9 @@
 		</plugins>
 	</build>
 	<scm>
-		<connection>scm:svn:http://gwt-crypto.googlecode.com/svn/tags/gwt-crypto-1.0.0</connection>
-		<developerConnection>scm:svn:https://gwt-crypto.googlecode.com/svn/tags/gwt-crypto-1.0.0</developerConnection>
-		<url>http://gwt-crypto.googlecode.com/svn/tags/gwt-crypto-1.0.0</url>
+		<connection>scm:svn:http://gwt-crypto.googlecode.com/svn/trunk</connection>
+		<developerConnection>scm:svn:https://gwt-crypto.googlecode.com/svn/trunk</developerConnection>
+		<url>http://gwt-crypto.googlecode.com/svn/</url>
 	</scm>
 	<distributionManagement>
 		<repository>
