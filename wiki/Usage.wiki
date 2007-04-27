@@ -1,6 +1,6 @@
 = Introduction =
 
-For maven users, using the gwt-crypto library should be fairly easy and for others you can download the jar file and deploy it in whatever format you have defined.
+For [maven] users, using the gwt-crypto library should be fairly easy and for others you can download the jar file and deploy it in whatever format you have defined.
 
 
 = gwt-crypto Usage =
@@ -25,4 +25,3 @@ Then add the dependency:
     </dependency>
 </dependencies>
 }}}
-
