@@ -1,0 +1,3 @@
+Maven is a build tool like Ant or Make is a build tool, only more sophisticated.
+
+http://maven.apache.org
