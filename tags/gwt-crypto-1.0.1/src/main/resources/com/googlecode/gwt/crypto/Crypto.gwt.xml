@@ -1,0 +1,9 @@
+<module>
+	<!-- Inherit the core Web Toolkit stuff.                  -->
+	<inherits name='com.google.gwt.user.User'/>
+
+	<source path="bouncycastle" />
+	<source path="gwtx" />
+	<source path="util" />
+	<source path="client" />
+</module>
