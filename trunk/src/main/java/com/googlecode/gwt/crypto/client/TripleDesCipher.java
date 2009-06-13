@@ -1,4 +1,4 @@
-package com.googlecode.gwt.crypto;
+package com.googlecode.gwt.crypto.client;
 
 import com.googlecode.gwt.crypto.bouncycastle.DataLengthException;
 import com.googlecode.gwt.crypto.bouncycastle.InvalidCipherTextException;
@@ -10,13 +10,6 @@ import com.googlecode.gwt.crypto.bouncycastle.util.encoders.Hex;
 import com.googlecode.gwt.crypto.util.Str;
 
 
-//import org.bouncycastle.crypto.DataLengthException;
-//import org.bouncycastle.crypto.InvalidCipherTextException;
-//import org.bouncycastle.crypto.engines.DESedeEngine;
-//import org.bouncycastle.crypto.modes.CBCBlockCipher;
-//import org.bouncycastle.crypto.paddings.PaddedBufferedBlockCipher;
-//import org.bouncycastle.crypto.params.KeyParameter;
-//import org.bouncycastle.util.encoders.Hex;
 
 public class TripleDesCipher {
 	private PaddedBufferedBlockCipher cipher = new PaddedBufferedBlockCipher(
