@@ -7,12 +7,12 @@ For [maven] users, using the gwt-crypto library should be fairly easy and for ot
 
 First add the repo to your repo list:
 {{{
-<pluginRepositories>
-    <pluginRepository>
+<repositories>
+    <repository>
         <id>gwt-crypto repo</id>
         <url>http://gwt-crypto.googlecode.com/svn/trunk/repo/</url>
-     </pluginRepository>
-</pluginRepositories>
+     </repository>
+</repositories>
 }}}
 
 Then add the dependency:
