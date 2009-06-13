@@ -21,7 +21,7 @@ Then add the dependency:
     <dependency>
         <groupId>com.googlecode.gwt.crypto</groupId>
         <artifactId>gwt-crypto</artifactId>
-        <version>1.0.0</version>
+        <version>1.0.1</version>
     </dependency>
 </dependencies>
 }}}
