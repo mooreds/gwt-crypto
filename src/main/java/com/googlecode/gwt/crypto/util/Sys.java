@@ -7,8 +7,8 @@ public class Sys {
 				src.length, dest.length);
 
 		int destIdx = destPos;
-		for (int s = srcPos; s < length; s++) {
-			dest[destIdx++] = src[s];
+		for (int s = 0; s < length; s++) {
+			dest[destIdx++] = src[srcPos++];
 		}
 
 	}
