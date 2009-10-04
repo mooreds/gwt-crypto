@@ -53,6 +53,10 @@ public abstract class GeneralDigest
         byteCount++;
     }
 
+/**
+ Note that in.length must be less than DIGEST_LENGTH.
+*/
+
     public void update(
         byte[]  in,
         int     inOff,
