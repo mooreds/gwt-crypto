@@ -1,3 +1,5 @@
+#summary Code examples and maven info
+
 = Code = 
 
 This code below assumes a constant key.  Note that this is not very secure.  Consider using TripleDesKeyGenerator in a more sophisticated fashion.
@@ -6,13 +8,13 @@ This code below assumes a constant key.  Note that this is not very secure.  Con
 TripleDesCipher cipher = new TripleDesCipher();
 cipher.setKey(GWT_DES_KEY);
 try {
-enc = cipher.encrypt(String.valueOf(value));
+  enc = cipher.encrypt(String.valueOf(value));
 } catch (DataLengthException e1) {
-e1.printStackTrace();
+  e1.printStackTrace();
 } catch (IllegalStateException e1) {
-e1.printStackTrace();
+  e1.printStackTrace();
 } catch (InvalidCipherTextException e1) {
-e1.printStackTrace();
+  e1.printStackTrace();
 }
 }}}
 
@@ -25,19 +27,19 @@ TripleDesCipher cipher = new TripleDesCipher();
 cipher.setKey(GWT_DES_KEY);
 String dec ="";
 try {
-dec = cipher.decrypt(enc);
+  dec = cipher.decrypt(enc);
 } catch (DataLengthException e) {
-e.printStackTrace();
+  e.printStackTrace();
 } catch (IllegalStateException e) {
-e.printStackTrace();
+  e.printStackTrace();
 } catch (InvalidCipherTextException e) {
-e.printStackTrace();
+  e.printStackTrace();
 }
 }}}
 
 = Maven Usage =
 
-For [maven] users, using the gwt-crypto library should be fairly easy and for others you can download the jar file and deploy it in whatever format you have defined.
+For maven users, using the gwt-crypto library should be fairly easy and for others you can download the jar file and deploy it in whatever format you have defined.
 
 = gwt-crypto Usage =
 
