@@ -1,6 +1,8 @@
 #summary Considerations for client side encryption
 
-This is based on an email exchange I had with Brill Pappin and concerns I raised in a [http://www.mooreds.com/wordpress/archives/000529 blog post].
+This is based on an email exchange I had with Brill Pappin and concerns I raised in a [http://www.mooreds.com/wordpress/archives/000529 blog post].  The upshot is that GWT encryption can, like any javascript encryption, be subverted.  If you want real security on the web, use SSL.
+
+---
 
 This implementation of TripleDES (tdes) is compatible with native java tdes implementations.
 
