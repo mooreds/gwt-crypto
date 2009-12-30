@@ -18,4 +18,20 @@ public class StrTest extends TestCase {
 		assertEquals("test string", new String(output));
 
 	}
+	
+	public void testEmptyBytes() {
+		byte[] inputBytes =new byte[]{};;
+		char[] output = Str.toChars(inputBytes);
+		assertNotNull(output);
+		assertEquals("", new String(output));
+	}
+	
+
+	
+	public void testNullBytes() {
+		byte[] inputBytes = null;
+		char[] output = Str.toChars(inputBytes);
+		assertNotNull(output);
+		assertEquals("", new String(output));
+	}
 }
