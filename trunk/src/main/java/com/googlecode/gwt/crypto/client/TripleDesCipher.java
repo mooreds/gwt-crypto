@@ -24,6 +24,9 @@ public class TripleDesCipher {
 		return key;
 	}
 
+	/**
+	 * @param key must be between 16 and 24 bytes.  
+	 */
 	public void setKey(byte[] key) {
 		this.key = key;
 	}
