@@ -47,6 +47,11 @@ public class DESedeEngine extends DESEngine {
 		if (keyMaster.length > 24) {
 			throw new IllegalArgumentException("key size greater than 24 bytes");
 		}
+		if (keyMaster.length < 16) {
+			throw new IllegalArgumentException("key size greater than 16 bytes");
+		}
+
+		
 
 		this.forEncryption = encrypting;
 
