@@ -9,6 +9,9 @@ import com.googlecode.gwt.crypto.bouncycastle.params.KeyParameter;
 import com.googlecode.gwt.crypto.bouncycastle.util.encoders.Hex;
 import com.googlecode.gwt.crypto.util.Str;
 
+/** 
+* Main class
+*/
 
 
 public class TripleDesCipher {
