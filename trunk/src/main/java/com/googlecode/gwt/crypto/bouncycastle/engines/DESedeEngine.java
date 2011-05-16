@@ -1,7 +1,6 @@
 package com.googlecode.gwt.crypto.bouncycastle.engines;
 
 
-import com.google.gwt.core.client.GWT;
 import com.googlecode.gwt.crypto.bouncycastle.CipherParameters;
 import com.googlecode.gwt.crypto.bouncycastle.DataLengthException;
 import com.googlecode.gwt.crypto.bouncycastle.params.KeyParameter;
@@ -36,9 +35,10 @@ public class DESedeEngine extends DESEngine {
 	 * @exception IllegalArgumentException
 	 *                if the params argument is inappropriate.
 	 */
+	@Override
 	public void init(boolean encrypting, CipherParameters params) {
 		if (!(params instanceof KeyParameter)) {
-			throw new IllegalArgumentException("invalid parameter passed to DESede init - " + GWT.getTypeName(params));
+			throw new IllegalArgumentException("invalid parameter passed to DESede init - " + params.getClass().getName());
 		}
 
 		byte[] keyMaster = ((KeyParameter) params).getKey();
@@ -74,14 +74,17 @@ public class DESedeEngine extends DESEngine {
 		}
 	}
 
+	@Override
 	public String getAlgorithmName() {
 		return "DESede";
 	}
 
+	@Override
 	public int getBlockSize() {
 		return BLOCK_SIZE;
 	}
 
+	@Override
 	public int processBlock(byte[] in, int inOff, byte[] out, int outOff) {
 		if (workingKey1 == null) {
 			throw new IllegalStateException("DESede engine not initialised");
@@ -108,6 +111,7 @@ public class DESedeEngine extends DESEngine {
 		return BLOCK_SIZE;
 	}
 
+	@Override
 	public void reset() {
 	}
 }

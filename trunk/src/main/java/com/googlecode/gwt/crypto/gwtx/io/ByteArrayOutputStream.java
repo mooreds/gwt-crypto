@@ -72,7 +72,8 @@ public class ByteArrayOutputStream extends OutputStream {
 	 * @throws IOException
 	 *             If an error occurs attempting to close this OutputStream.
 	 */
-    public void close() throws IOException {
+    @Override
+	public void close() throws IOException {
 		/**
 		 * Although the spec claims "A closed stream cannot perform output
 		 * operations and cannot be reopened.", this implementation must do
@@ -137,7 +138,8 @@ public class ByteArrayOutputStream extends OutputStream {
 	 * 
 	 * @return this streams current contents as a String.
 	 */
-    public String toString() {
+    @Override
+	public String toString() {
         char[] c = new char[count];
         for (int i=0; i < count; i++) {
             c[i] = (char)buf[i];
@@ -202,7 +204,8 @@ public class ByteArrayOutputStream extends OutputStream {
 	 * @throws IndexOutOfBoundsException
 	 *             If offset or count are outside of bounds.
 	 */
-    public synchronized void write(byte[] buffer, int offset, int len) {
+    @Override
+	public synchronized void write(byte[] buffer, int offset, int len) {
 		/* Unsure what to do here, spec is unclear */
 		if (buf == null) {
             return;
@@ -230,7 +233,8 @@ public class ByteArrayOutputStream extends OutputStream {
 	 * @param oneByte
 	 *            the byte to be written
 	 */
-    public synchronized void write(int oneByte) {
+    @Override
+	public synchronized void write(int oneByte) {
 		try {
 			buf[count] = (byte) oneByte;
 			count++;

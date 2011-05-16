@@ -65,7 +65,8 @@ public class PaddedBufferedBlockCipher
      * @exception IllegalArgumentException if the params argument is
      * inappropriate.
      */
-    public void init(
+    @Override
+	public void init(
         boolean             forEncryption,
         CipherParameters    params)
         throws IllegalArgumentException
@@ -98,7 +99,8 @@ public class PaddedBufferedBlockCipher
      * @return the space required to accommodate a call to update and doFinal
      * with len bytes of input.
      */
-    public int getOutputSize(
+    @Override
+	public int getOutputSize(
         int len)
     {
         int total       = len + bufOff;
@@ -125,7 +127,8 @@ public class PaddedBufferedBlockCipher
      * @return the space required to accommodate a call to update
      * with len bytes of input.
      */
-    public int getUpdateOutputSize(
+    @Override
+	public int getUpdateOutputSize(
         int len)
     {
         int total       = len + bufOff;
@@ -149,7 +152,8 @@ public class PaddedBufferedBlockCipher
      * @exception DataLengthException if there isn't enough space in out.
      * @exception IllegalStateException if the cipher isn't initialised.
      */
-    public int processByte(
+    @Override
+	public int processByte(
         byte        in,
         byte[]      out,
         int         outOff)
@@ -180,7 +184,8 @@ public class PaddedBufferedBlockCipher
      * @exception DataLengthException if there isn't enough space in out.
      * @exception IllegalStateException if the cipher isn't initialised.
      */
-    public int processBytes(
+    @Override
+	public int processBytes(
         byte[]      in,
         int         inOff,
         int         len,
@@ -247,7 +252,8 @@ public class PaddedBufferedBlockCipher
      * initialised.
      * @exception InvalidCipherTextException if padding is expected and not found.
      */
-    public int doFinal(
+    @Override
+	public int doFinal(
         byte[]  out,
         int     outOff)
         throws DataLengthException, IllegalStateException, InvalidCipherTextException

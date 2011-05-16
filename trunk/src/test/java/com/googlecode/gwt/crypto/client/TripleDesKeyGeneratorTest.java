@@ -1,8 +1,13 @@
 package com.googlecode.gwt.crypto.client;
 
-import junit.framework.TestCase;
+import com.googlecode.gwt.crypto.common.CryptoTest;
 
-public class TripleDesKeyGeneratorTest extends TestCase {
+public class TripleDesKeyGeneratorTest extends CryptoTest {
+	@Override
+	public void onModuleLoad()
+	{
+		//Do nothing
+	}
 
 	public void testEncodeKey() throws Exception {
 		

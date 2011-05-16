@@ -1,8 +1,14 @@
 package com.googlecode.gwt.crypto.util;
 
-import junit.framework.TestCase;
+import com.googlecode.gwt.crypto.common.CryptoTest;
 
-public class StrTest extends TestCase {
+public class StrTest extends CryptoTest {
+	@Override
+	public void onModuleLoad()
+	{
+		//Do nothing
+	}
+
 	public void testToBytes() {
 		char[] inputChars = "test string".toCharArray();
 		byte[] output = Str.toBytes(inputChars);

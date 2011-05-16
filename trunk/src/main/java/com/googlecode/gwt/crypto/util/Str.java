@@ -32,5 +32,15 @@ public class Str {
 		}
 		return out;
 	}
+	
+	public static String toString(byte[] in)
+	{
+		return new String(toChars(in));
+	}
+	
+	public static byte[] fromString(String in)
+	{
+		return toBytes(in.toCharArray());
+	}
 
 }

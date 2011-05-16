@@ -1,9 +1,17 @@
 package com.googlecode.gwt.crypto.bouncycastle.digests;
 
-import com.googlecode.gwt.crypto.util.Str;
-import junit.framework.TestCase;
+import com.google.gwt.core.client.EntryPoint;
+import com.google.gwt.junit.client.GWTTestCase;
+import com.googlecode.gwt.crypto.common.CryptoTest;
 
-public class SHA1DigestTest extends TestCase {
+@SuppressWarnings("unused")
+public class SHA1DigestTest extends CryptoTest {
+	@Override
+	public void onModuleLoad()
+	{
+		//Do nothing
+	}
+
 	public void testCreateDigest() {
 		try {
 			String passwordString = "abcdefghi";
@@ -90,6 +98,5 @@ public class SHA1DigestTest extends TestCase {
 		}
 		
 	}
-
 }
 

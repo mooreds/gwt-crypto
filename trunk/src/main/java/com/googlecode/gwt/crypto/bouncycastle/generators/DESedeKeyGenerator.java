@@ -17,6 +17,7 @@ public class DESedeKeyGenerator extends DESKeyGenerator {
 	 * @param param
 	 *            the parameters to be used for key generation
 	 */
+	@Override
 	public void init(KeyGenerationParameters param) {
 		super.init(param);
 
@@ -32,6 +33,7 @@ public class DESedeKeyGenerator extends DESKeyGenerator {
 		}
 	}
 
+	@Override
 	public byte[] generateKey() {
 		byte[] newKey = new byte[strength];
 

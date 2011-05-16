@@ -10,7 +10,8 @@ import com.googlecode.gwt.crypto.bouncycastle.params.DESParameters;
 public class DESKeyGenerator
     extends CipherKeyGenerator
 {
-    public byte[] generateKey()
+    @Override
+	public byte[] generateKey()
     {
         byte[]  newKey = new byte[DESParameters.DES_KEY_LENGTH];
 
