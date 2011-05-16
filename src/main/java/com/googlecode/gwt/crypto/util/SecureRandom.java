@@ -2,6 +2,8 @@ package com.googlecode.gwt.crypto.util;
 
 //import java.util.Random;
 
+import java.util.Random;
+
 import com.googlecode.gwt.crypto.bouncycastle.digests.SHA1Digest;
 
 //import client.bouncycastle.javautil.Random;
@@ -13,24 +15,27 @@ import com.googlecode.gwt.crypto.bouncycastle.digests.SHA1Digest;
  * 1.0, and the J2ME. Random generation is based on the traditional SHA1 with
  * counter. Calling setSeed will always increase the entropy of the hash.
  */
-public class SecureRandom {
-	private static SecureRandom rand = new SecureRandom();
+public class SecureRandom extends Random {
+	private static SecureRandom rand = null;
 
-	private byte[] seed;
-
+	private Long preSeed;
 	private long counter = 1;
 	private SHA1Digest digest = new SHA1Digest();
 	private byte[] state = new byte[digest.getDigestSize()];
 
 	// public constructors
 	public SecureRandom() {
-		// super(0);
-		setSeed(System.currentTimeMillis());
-
+		super();
+		if (preSeed != null)
+		{
+			setSeed(preSeed);
+			preSeed = null;
+		}
+		//setSeed(System.currentTimeMillis());
 	}
 
 	public SecureRandom(byte[] inSeed) {
-		// super(0);
+		super(0);
 		setSeed(inSeed);
 	}
 
@@ -47,6 +52,8 @@ public class SecureRandom {
 	}
 
 	public static byte[] getSeed(int numBytes) {
+		if (rand == null) rand = new SecureRandom();
+		
 		byte[] rv = new byte[numBytes];
 
 		rand.setSeed(System.currentTimeMillis());
@@ -70,6 +77,7 @@ public class SecureRandom {
 	}
 
 	// public methods overriding random
+	@Override
 	public void nextBytes(byte[] bytes) {
 		int stateOff = 0;
 
@@ -93,14 +101,18 @@ public class SecureRandom {
 		digest.update(state, 0, state.length);
 	}
 
+	@Override
 	public void setSeed(long rSeed) {
 		if (rSeed != 0) {
-			setSeed(longToBytes(rSeed));
+			//Save and set in constructor
+			if (digest == null) preSeed = rSeed;
+			else setSeed(longToBytes(rSeed));
 		}
 	}
 
 	private byte[] intBytes = new byte[4];
 
+	@Override
 	public int nextInt() {
 		nextBytes(intBytes);
 
@@ -113,6 +125,7 @@ public class SecureRandom {
 		return result;
 	}
 
+	@Override
 	protected final int next(int numBits) {
 		int size = (numBits + 7) / 8;
 		byte[] bytes = new byte[size];
@@ -129,7 +142,6 @@ public class SecureRandom {
 	}
 
 	private byte[] longBytes = new byte[8];
-
 	private byte[] longToBytes(long val) {
 		for (int i = 0; i != 8; i++) {
 			longBytes[i] = (byte) val;

@@ -1,8 +1,21 @@
 package com.googlecode.gwt.crypto.client;
 
+import com.google.gwt.core.client.EntryPoint;
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.core.client.JavaScriptException;
+import com.google.gwt.junit.client.GWTTestCase;
+import com.googlecode.gwt.crypto.common.CryptoTest;
+
 import junit.framework.TestCase;
 
-public class TripleDesCipherTest extends TestCase {
+@SuppressWarnings("unused")
+public class TripleDesCipherTest extends CryptoTest {
+	@Override
+	public void onModuleLoad()
+	{
+		//Do nothing
+	}
+
 	private final static byte[] key = new byte[]{
 		(byte)4,(byte)8,(byte)3,(byte)80,(byte)12,(byte)-9,(byte)-5,(byte)101, 
 		(byte)15,(byte)-8,(byte)3,(byte)0,(byte)90,(byte)-9,(byte)55,(byte)-41, 
@@ -45,7 +58,9 @@ public class TripleDesCipherTest extends TestCase {
 		try {
 			String encrypted = cipher.encrypt(toEncrypt);
 			fail ("should get NPE");
-		} catch (NullPointerException expected) {}
+		} 
+		catch (NullPointerException expected) {assertFalse("Should be JSE", GWT.isProdMode());}
+		catch (JavaScriptException e) {assertTrue("Should be NPE", GWT.isProdMode());}
 	
 	}
 

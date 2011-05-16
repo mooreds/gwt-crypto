@@ -62,7 +62,8 @@ public class CBCBlockCipher
      * @exception IllegalArgumentException if the params argument is
      * inappropriate.
      */
-    public void init(
+    @Override
+	public void init(
         boolean             encrypting,
         CipherParameters    params)
         throws IllegalArgumentException
@@ -98,7 +99,8 @@ public class CBCBlockCipher
      *
      * @return the name of the underlying algorithm followed by "/CBC".
      */
-    public String getAlgorithmName()
+    @Override
+	public String getAlgorithmName()
     {
         return cipher.getAlgorithmName() + "/CBC";
     }
@@ -108,7 +110,8 @@ public class CBCBlockCipher
      *
      * @return the block size of the underlying cipher.
      */
-    public int getBlockSize()
+    @Override
+	public int getBlockSize()
     {
         return cipher.getBlockSize();
     }
@@ -126,7 +129,8 @@ public class CBCBlockCipher
      * @exception IllegalStateException if the cipher isn't initialised.
      * @return the number of bytes processed and produced.
      */
-    public int processBlock(
+    @Override
+	public int processBlock(
         byte[]      in,
         int         inOff,
         byte[]      out,
@@ -140,7 +144,8 @@ public class CBCBlockCipher
      * reset the chaining vector back to the IV and reset the underlying
      * cipher.
      */
-    public void reset()
+    @Override
+	public void reset()
     {
     	Sys.arraycopyBytes(IV, 0, cbcV, 0, IV.length);
 

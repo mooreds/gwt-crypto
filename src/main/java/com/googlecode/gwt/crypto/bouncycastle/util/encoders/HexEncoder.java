@@ -42,7 +42,8 @@ public class HexEncoder
      *
      * @return the number of bytes produced.
      */
-    public int encode(
+    @Override
+	public int encode(
         byte[]                data,
         int                    off,
         int                    length,
@@ -72,14 +73,14 @@ public class HexEncoder
      *
      * @return the number of bytes produced.
      */
-    public int decode(
+    @Override
+	public int decode(
         byte[]                data,
         int                    off,
         int                    length,
         OutputStream    out)
         throws IOException
     {
-        byte[]    bytes;
         byte    b1, b2;
         int        outLen = 0;
         
@@ -126,13 +127,13 @@ public class HexEncoder
      *
      * @return the number of bytes produced.
      */
-    public int decode(
+    @Override
+	public int decode(
         String                data,
         OutputStream    out)
         throws IOException
     {
-        byte[]    bytes;
-        byte    b1, b2, b3, b4;
+        byte    b1, b2;
         int        length = 0;
         
         int        end = data.length();

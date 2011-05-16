@@ -1,8 +1,14 @@
 package com.googlecode.gwt.crypto.util;
 
-import junit.framework.TestCase;
+import com.googlecode.gwt.crypto.common.CryptoTest;
 
-public class SysTest extends TestCase {
+public class SysTest extends CryptoTest {
+	@Override
+	public void onModuleLoad()
+	{
+		//Do nothing
+	}
+
 	public void testCopyAllBytes() {
 		byte[] a1 = { 1, 2, 3 };
 		byte[] a2 = new byte[a1.length];

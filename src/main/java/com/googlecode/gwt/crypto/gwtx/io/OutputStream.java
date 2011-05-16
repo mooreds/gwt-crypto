@@ -44,6 +44,7 @@ public abstract class OutputStream implements Closeable,Flushable{
 	 *             If an error occurs attempting to close this OutputStream.
 	 */
 
+	@Override
 	public void close() throws IOException {
 		/*empty*/
 	}
@@ -57,6 +58,7 @@ public abstract class OutputStream implements Closeable,Flushable{
 	 *             If an error occurs attempting to flush this OutputStream.
 	 */
 
+	@Override
 	public void flush() throws IOException {
 		/*empty */
 	}
