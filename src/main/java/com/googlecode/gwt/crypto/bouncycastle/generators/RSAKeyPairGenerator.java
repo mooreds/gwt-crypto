@@ -42,7 +42,7 @@ public class RSAKeyPairGenerator
 
         e = param.getPublicExponent();
 
-        // TODO Consider generating safe primes for p, q (see DHParametersHelper.generateSafePrimes)
+        // TO DO Consider generating safe primes for p, q (see DHParametersHelper.generateSafePrimes)
         // (then p-1 and q-1 will not consist of only small factors - see "Pollard's algorithm")
 
         //

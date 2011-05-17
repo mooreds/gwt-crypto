@@ -24,7 +24,6 @@ import com.google.gwt.user.client.Window;
  * Recommended browser for production mode is Chrome as it is <b>much</b> faster than 
  * other browsers.<br>
  * In Chrome all test run as in pure java other browsers will us the simpler ones.
- * But you may still want to disable some tests to speed things up.
  * @author SHadoW
  *
  */
@@ -469,7 +468,7 @@ public class RSATest
     	 * issue)
     	 */
     	
-        if (! isProdMode())
+        if (! GWT.isProdMode())
         {
         	//Operation is infeasible for javascript
         	
