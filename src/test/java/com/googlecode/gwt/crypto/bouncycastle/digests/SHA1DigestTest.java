@@ -7,8 +7,7 @@ import com.googlecode.gwt.crypto.common.CryptoTest;
 @SuppressWarnings("unused")
 public class SHA1DigestTest extends CryptoTest {
 	@Override
-	public void onModuleLoad()
-	{
+	public void onModuleLoad() {
 		//Do nothing
 	}
 

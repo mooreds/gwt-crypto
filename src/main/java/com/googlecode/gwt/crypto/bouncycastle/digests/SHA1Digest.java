@@ -41,7 +41,7 @@ public class SHA1Digest
         H4 = t.H4;
         H5 = t.H5;
 
-        Sys.arraycopyInt(t.X, 0, X, 0, t.X.length);
+        Sys.arraycopy(t.X, 0, X, 0, t.X.length);
         xOff = t.xOff;
     }
 

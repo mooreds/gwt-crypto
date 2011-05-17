@@ -80,7 +80,7 @@ public class CBCBlockCipher
                     throw new IllegalArgumentException("initialisation vector must be the same length as block size");
                 }
 
-                Sys.arraycopyBytes(iv, 0, IV, 0, iv.length);
+                Sys.arraycopy(iv, 0, IV, 0, iv.length);
 
                 reset();
 
@@ -147,7 +147,7 @@ public class CBCBlockCipher
     @Override
 	public void reset()
     {
-    	Sys.arraycopyBytes(IV, 0, cbcV, 0, IV.length);
+    	Sys.arraycopy(IV, 0, cbcV, 0, IV.length);
 
         cipher.reset();
     }
@@ -190,7 +190,7 @@ public class CBCBlockCipher
         /*
          * copy ciphertext to cbcV
          */
-        Sys.arraycopyBytes(out, outOff, cbcV, 0, cbcV.length);
+        Sys.arraycopy(out, outOff, cbcV, 0, cbcV.length);
 
         return length;
     }
@@ -219,7 +219,7 @@ public class CBCBlockCipher
             throw new DataLengthException("input buffer too short");
         }
 
-        Sys.arraycopyBytes(in, inOff, cbcNextV, 0, blockSize);
+        Sys.arraycopy(in, inOff, cbcNextV, 0, blockSize);
 
         int length = cipher.processBlock(in, inOff, out, outOff);
 

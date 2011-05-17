@@ -56,17 +56,17 @@ public class DESedeEngine extends DESEngine {
 		this.forEncryption = encrypting;
 
 		if (keyMaster.length == 24) {
-			Sys.arraycopyBytes(keyMaster, 0, key1, 0, key1.length);
-			Sys.arraycopyBytes(keyMaster, 8, key2, 0, key2.length);
-			Sys.arraycopyBytes(keyMaster, 16, key3, 0, key3.length);
+			Sys.arraycopy(keyMaster, 0, key1, 0, key1.length);
+			Sys.arraycopy(keyMaster, 8, key2, 0, key2.length);
+			Sys.arraycopy(keyMaster, 16, key3, 0, key3.length);
 
 			workingKey1 = generateWorkingKey(encrypting, key1);
 			workingKey2 = generateWorkingKey(!encrypting, key2);
 			workingKey3 = generateWorkingKey(encrypting, key3);
 		} else // 16 byte key
 		{
-			Sys.arraycopyBytes(keyMaster, 0, key1, 0, key1.length);
-			Sys.arraycopyBytes(keyMaster, 8, key2, 0, key2.length);
+			Sys.arraycopy(keyMaster, 0, key1, 0, key1.length);
+			Sys.arraycopy(keyMaster, 8, key2, 0, key2.length);
 
 			workingKey1 = generateWorkingKey(encrypting, key1);
 			workingKey2 = generateWorkingKey(!encrypting, key2);

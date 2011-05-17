@@ -33,7 +33,7 @@ public abstract class GeneralDigest
     protected GeneralDigest(GeneralDigest t)
     {
         xBuf = new byte[t.xBuf.length];
-        Sys.arraycopyBytes(t.xBuf, 0, xBuf, 0, t.xBuf.length);
+        Sys.arraycopy(t.xBuf, 0, xBuf, 0, t.xBuf.length);
 
         xBufOff = t.xBufOff;
         byteCount = t.byteCount;

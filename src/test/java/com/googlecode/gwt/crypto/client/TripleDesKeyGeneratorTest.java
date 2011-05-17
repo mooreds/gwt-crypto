@@ -4,8 +4,7 @@ import com.googlecode.gwt.crypto.common.CryptoTest;
 
 public class TripleDesKeyGeneratorTest extends CryptoTest {
 	@Override
-	public void onModuleLoad()
-	{
+	public void onModuleLoad() {
 		//Do nothing
 	}
 

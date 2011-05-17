@@ -4,28 +4,26 @@ import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JavaScriptException;
 import com.google.gwt.junit.client.GWTTestCase;
+import com.googlecode.gwt.crypto.bouncycastle.BlockCipher;
 import com.googlecode.gwt.crypto.common.CryptoTest;
 
 import junit.framework.TestCase;
 
 @SuppressWarnings("unused")
-public class TripleDesCipherTest extends CryptoTest {
+public abstract class BlockCipherTest extends CryptoTest {
 	@Override
-	public void onModuleLoad()
-	{
+	public void onModuleLoad() {
 		//Do nothing
 	}
-
-	private final static byte[] key = new byte[]{
-		(byte)4,(byte)8,(byte)3,(byte)80,(byte)12,(byte)-9,(byte)-5,(byte)101, 
-		(byte)15,(byte)-8,(byte)3,(byte)0,(byte)90,(byte)-9,(byte)55,(byte)-41, 
-		(byte)-9,(byte)90,(byte)3,(byte)100,(byte)-40,(byte)79,(byte)5,(byte)102};
-
+	
+	protected abstract AbstractStreamCipher getCipher();
+	
+	protected abstract byte[] getKey();
 
 	public void testEncryptDecrypt() throws Exception {
 	 	String toEncrypt = "encrypt This";
-		TripleDesCipher cipher = new TripleDesCipher();
-		cipher.setKey(key);
+		AbstractStreamCipher cipher = getCipher();
+		cipher.setKey(getKey());
 		String encrypted = cipher.encrypt(toEncrypt);
 		String decrypted = cipher.decrypt(encrypted);
 		assertEquals(toEncrypt, decrypted);
@@ -34,8 +32,8 @@ public class TripleDesCipherTest extends CryptoTest {
 	
 	public void testEncryptDecryptSmall() throws Exception {
 	 	String toEncrypt = "etl";
-		TripleDesCipher cipher = new TripleDesCipher();
-		cipher.setKey(key);
+		AbstractStreamCipher cipher = getCipher();
+		cipher.setKey(getKey());
 		String encrypted = cipher.encrypt(toEncrypt);
 		String decrypted = cipher.decrypt(encrypted);
 		assertEquals(toEncrypt, decrypted);
@@ -44,8 +42,8 @@ public class TripleDesCipherTest extends CryptoTest {
 	
 	public void testEncryptDecryptBlank() throws Exception {
 	 	String toEncrypt = "";
-		TripleDesCipher cipher = new TripleDesCipher();
-		cipher.setKey(key);
+		AbstractStreamCipher cipher = getCipher();
+		cipher.setKey(getKey());
 		String encrypted = cipher.encrypt(toEncrypt);
 		String decrypted = cipher.decrypt(encrypted);
 		assertEquals(toEncrypt, decrypted);
@@ -53,8 +51,8 @@ public class TripleDesCipherTest extends CryptoTest {
 	
 	public void testEncryptNull() throws Exception {
 	 	String toEncrypt = null;
-		TripleDesCipher cipher = new TripleDesCipher();
-		cipher.setKey(key);
+		AbstractStreamCipher cipher = getCipher();
+		cipher.setKey(getKey());
 		try {
 			String encrypted = cipher.encrypt(toEncrypt);
 			fail ("should get NPE");
@@ -67,8 +65,8 @@ public class TripleDesCipherTest extends CryptoTest {
 
 	public void testUnicodeEncryptDecrypt() throws Exception {
 	 	String toEncrypt = "\u00D6 \u00C4 (German)\n";
-		TripleDesCipher cipher = new TripleDesCipher();
-		cipher.setKey(key);
+		AbstractStreamCipher cipher = getCipher();
+		cipher.setKey(getKey());
 		String encrypted = cipher.encrypt(toEncrypt);
 		String decrypted = cipher.decrypt(encrypted);
 		assertEquals(toEncrypt, decrypted);
@@ -84,8 +82,8 @@ public class TripleDesCipherTest extends CryptoTest {
 	public void testMultipleEncryptDecrypt() throws Exception {
 	 	String toEncrypt = "encrypt this";
 	 	String toEncrypt2 = "now, encrypt this";
-		TripleDesCipher cipher = new TripleDesCipher();
-		cipher.setKey(key);
+		AbstractStreamCipher cipher = getCipher();
+		cipher.setKey(getKey());
 		String encrypted = cipher.encrypt(toEncrypt);
 		String decrypted = cipher.decrypt(encrypted);
 		assertEquals(toEncrypt, decrypted);
@@ -96,8 +94,8 @@ public class TripleDesCipherTest extends CryptoTest {
 
 	public void testLargeStringEncryptDecrypt() throws Exception {
 	 	String toEncrypt = " encrypt this large large string encrypt this large large string encrypt this large large string encrypt this large large string encrypt this large large string encrypt this large large string encrypt this large large string encrypt this large large string encrypt this large large string encrypt this large large string encrypt this large large string encrypt this large large string encrypt this large large string encrypt this large large string encrypt this large large string encrypt this large large string encrypt this large large string encrypt this large large string encrypt this large large string encrypt this large large string ";
-		TripleDesCipher cipher = new TripleDesCipher();
-		cipher.setKey(key);
+		AbstractStreamCipher cipher = getCipher();
+		cipher.setKey(getKey());
 		String encrypted = cipher.encrypt(toEncrypt);
 		String decrypted = cipher.decrypt(encrypted);
 		assertEquals(toEncrypt, decrypted);
@@ -107,7 +105,7 @@ public class TripleDesCipherTest extends CryptoTest {
 		byte MyKey[] = { 0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07,
 			};
 
-		final TripleDesCipher cip = new TripleDesCipher();
+		final AbstractStreamCipher cip = getCipher();
 		try {
 			cip.setKey(MyKey);
 			String rEnc = cip.encrypt("");
@@ -119,39 +117,70 @@ public class TripleDesCipherTest extends CryptoTest {
 	}
 	
 	public void testKeyLengthNotMultipleOfEight() throws Exception {
-		byte MyKey[] = { 0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07,
-				0x08, 0x09, 0x10, 0x11, 0x012, 0x013,
-				0x00, 0x01, 0x02, 0x03, 0x04, 
-			};
-
-		final TripleDesCipher cip = new TripleDesCipher();
-		cip.setKey(MyKey);
+		byte MyKey[] = new byte[getKey().length + 1];
 		
-		String rEnc = cip.encrypt("");
+		for (int i = 0; i < MyKey.length; i++) {
+			MyKey[i] = (byte)i;
+		}
+
+		final AbstractStreamCipher cip = getCipher();
+		
+		try
+		{
+			cip.setKey(MyKey);
+		
+			String rEnc = cip.encrypt("");
+			fail("Should throw illegal argument exception");
+		}
+		catch (IllegalArgumentException e) {
+		}
 	}
 	
 	public void testLongLongKey() throws Exception {
-		byte MyKey[] = { 0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07,
-				0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06,0x07, 
-				0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06,0x07,
-				0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06,0x07,
-				0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06,0x07,
-				0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06,0x07,
-				0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06,0x07,
-				0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06,0x07,
-				0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06,0x07,
-				0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06,0x07,
-				0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06,0x07,
+		byte MyKey[] = { 
+				0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07,
+				0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 
+				0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07,
+				0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07,
+				0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07,
+				0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07,
+				0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07,
+				0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07,
 				
-			};
+				0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07,
+				0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 
+				0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07,
+				0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07,
+				0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07,
+				0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07,
+				0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07,
+				0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07,
+				
+				0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07,
+				0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 
+				0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07,
+				0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07,
+				0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07,
+				0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07,
+				0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07,
+				0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07,
+				
+				0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07,
+				0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 
+				0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07,
+				0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07,
+				0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07,
+				0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07,
+				0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07,
+				0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07,
+			};	//2048bit key (should be longer than any block cipher could handle)
 
-		final TripleDesCipher cip = new TripleDesCipher();
-		try {
-			cip.setKey(MyKey);
-			String rEnc = cip.encrypt("");
-			fail("Should throw illegal argument exception");
-		} catch (IllegalArgumentException expected) {
-			
+		final AbstractStreamCipher cip = getCipher();
+			try {
+				cip.setKey(MyKey);
+				String rEnc = cip.encrypt("");
+				fail("Should throw illegal argument exception");
+			} catch (IllegalArgumentException expected) {
 		}
 	}
 }
