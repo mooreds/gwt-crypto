@@ -14,9 +14,20 @@ import com.googlecode.gwt.crypto.bouncycastle.generators.RSAKeyPairGenerator;
 import com.googlecode.gwt.crypto.bouncycastle.params.RSAKeyGenerationParameters;
 import com.googlecode.gwt.crypto.bouncycastle.params.RSAKeyParameters;
 import com.googlecode.gwt.crypto.bouncycastle.params.RSAPrivateCrtKeyParameters;
+import com.googlecode.gwt.crypto.bouncycastle.util.Arrays;
 import com.googlecode.gwt.crypto.bouncycastle.util.encoders.Hex;
 import com.googlecode.gwt.crypto.util.SecureRandom;
+import com.googlecode.gwt.crypto.util.Sys;
+import com.google.gwt.user.client.Window;
 
+/**
+ * Recommended browser for production mode is Chrome as it is <b>much</b> faster than 
+ * other browsers.<br>
+ * In Chrome all test run as in pure java other browsers will us the simpler ones.
+ * But you may still want to disable some tests to speed things up.
+ * @author SHadoW
+ *
+ */
 public class RSATest
     extends SimpleTest
 {
@@ -29,12 +40,16 @@ public class RSATest
     static final BigInteger  qExp = new BigInteger("6c929e4e81672fef49d9c825163fec97c4b7ba7acb26c0824638ac22605d7201c94625770984f78a56e6e25904fe7db407099cad9b14588841b94f5ab498dded", 16);
     static final BigInteger  crtCoef = new BigInteger("dae7651ee69ad1d081ec5e7188ae126f6004ff39556bde90e0b870962fa7b926d070686d8244fe5a9aa709a95686a104614834b0ada4b10f53197a5cb4c97339", 16);
 
-    static final String input = "4e6f77206973207468652074696d6520666f7220616c6c20676f6f64206d656e";
+    static final BigInteger  modProd = new BigInteger("7743642062514449606329222412197881156521779620678777387829602924086964598029323489619549436028994056089040365027670952603649300270170833587692009642771703");
+    static final BigInteger  pubExpProd = new BigInteger("17");
+    static final BigInteger  privExpProd = new BigInteger("7288133705895952570662797564421535206138145525344731659133743928552437268733314484245449570552153830025895972382478802126326533754504185063587699310953713");
+
+    static final String inputData = "4e6f77206973207468652074696d6520666f7220616c6c20676f6f64206d656e";
 
     //
     // to check that we handling byte extension by big number correctly.
     //
-    static final String edgeInput = "ff6f77206973207468652074696d6520666f7220616c6c20676f6f64206d656e";
+    static final String edgeInputData = "ff6f77206973207468652074696d6520666f7220616c6c20676f6f64206d656e";
     
     static final byte[] oversizedSig = Hex.decode("01ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff004e6f77206973207468652074696d6520666f7220616c6c20676f6f64206d656e");
     static final byte[] dudBlock = Hex.decode("000fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff004e6f77206973207468652074696d6520666f7220616c6c20676f6f64206d656e");
@@ -42,6 +57,16 @@ public class RSATest
     static final byte[] incorrectPadding = Hex.decode("0001ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff4e6f77206973207468652074696d6520666f7220616c6c20676f6f64206d656e");
     static final byte[] missingDataBlock = Hex.decode("0001ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff");
 
+    boolean isProdMode()
+    {
+    	if (GWT.isProdMode())
+    	{
+    		String ua = Window.Navigator.getUserAgent();
+    		return (! ua.contains(" Chrome/"));
+    	}
+    	else return false;
+    }
+    
     private void testStrictPKCS1Length(RSAKeyParameters pubParameters, RSAKeyParameters privParameters)
     {
         AsymmetricBlockCipher   eng = new RSAEngine();
@@ -119,7 +144,6 @@ public class RSATest
 
     private void checkForPKCS1Exception(RSAKeyParameters pubParameters, RSAKeyParameters privParameters, byte[] inputData, String expectedMessage)
     {
-    	if (! GWT.isProdMode()) return; //TODO smaller key for production (512 or less)
         AsymmetricBlockCipher   eng = new RSAEngine();
 
         eng.init(true, privParameters);
@@ -156,12 +180,12 @@ public class RSATest
     
     private void testOAEP(RSAKeyParameters pubParameters, RSAKeyParameters privParameters)
     {
-    	if (! GWT.isProdMode()) return; //TODO smaller key for production (512 or less)
         //
         // OAEP - public encrypt, private decrypt
         //
-        AsymmetricBlockCipher eng = new OAEPEncoding(new RSAEngine());
-        byte[] data = Hex.decode(input);
+        @SuppressWarnings("deprecation")
+		AsymmetricBlockCipher eng = new OAEPEncoding(new RSAEngine());
+        byte[] data = getData(false);
 
         eng.init(true, pubParameters);
 
@@ -185,7 +209,7 @@ public class RSATest
             fail("failed - exception " + e.toString(), e);
         }
 
-        if (!input.equals(new String(Hex.encode(data))))
+        if (!Arrays.areEqual(getData(false), data))
         {
             fail("failed OAEP Test");
         }
@@ -231,33 +255,81 @@ public class RSATest
         }
     }
     
-    RSAKeyParameters    pubParameters;
-    RSAKeyParameters    privParameters;
-    byte[] getData()
+    RSAKeyParameters    pubParametersLong;
+    RSAKeyParameters    privParametersLong;
+
+    RSAKeyParameters    pubParametersProd;
+    RSAKeyParameters    privParametersProd;
+    
+    byte[] trimData(byte[] data)
     {
-    	return Hex.decode(edgeInput);
-    }
-    byte[] getInput()
-    {
-    	return Hex.decode(input);
+    	//Trim data for production cipher if needed
+    	if (isProdMode())
+    	{
+    		//Trim data to half the cipher length
+    		int cnt = pubParametersProd.getModulus().bitCount() / 2;
+    		
+    		if (data.length <= cnt) return data;
+    		
+    		byte[] res = new byte[pubParametersProd.getModulus().bitCount()];
+    		Sys.arraycopy(data, 0, res, 0, res.length);
+    		return res;
+    	}
+    	else return data;
     }
     
-    @Override
+    byte[] getData(boolean prodAware)
+    {
+    	byte[] res = Hex.decode(edgeInputData);
+    	if (prodAware) return trimData(res);
+    	else return res;
+    }
+    
+    byte[] getInput(boolean prodAware)
+    {
+    	byte[] res = Hex.decode(inputData);
+    	if (prodAware) return trimData(res);
+    	else return res;
+    }
+    
+    RSAKeyParameters getPriv()
+    {
+    	if (isProdMode()) return privParametersProd;
+    	else return privParametersLong;
+    }
+    
+    RSAKeyParameters getPub()
+    {
+    	if (isProdMode()) return pubParametersProd;
+    	else return pubParametersLong;
+    }
+    
+    @SuppressWarnings("deprecation")
+	@Override
     protected void gwtSetUp() throws Exception {
-        pubParameters = new RSAKeyParameters(false, mod, pubExp);
-        privParameters = new RSAPrivateCrtKeyParameters(mod, pubExp, privExp, p, q, pExp, qExp, crtCoef);
+        pubParametersLong = new RSAKeyParameters(false, mod, pubExp);
+        privParametersLong = new RSAPrivateCrtKeyParameters(mod, pubExp, privExp, p, q, pExp, qExp, crtCoef);
 
+        if (isProdMode())
+        {
+        	//For production mode do not use the extra parameters
+        	//It should work but it is too time expensive to test
+            //pubParametersProd = new RSAKeyParameters(false, mod, pubExp);
+            //privParametersProd = new RSAKeyParameters(true, mod, privExp);
+            pubParametersProd = new RSAKeyParameters(false, modProd, pubExpProd);
+            privParametersProd = new RSAKeyParameters(true, modProd, privExpProd);
+        }
+        
     	super.gwtSetUp();
     }
     
     public void testRaw()
     {
-    	if (! GWT.isProdMode()) return; //TODO smaller key for production (512 or less)
     	AsymmetricBlockCipher   eng = new RSAEngine();
 
-    	eng.init(true, pubParameters);
+    	eng.init(true, getPub());
     	
-    	byte[] data = getData();
+    	byte[] data = getData(true);
 
         try
         {
@@ -268,7 +340,7 @@ public class RSATest
             fail("RSA: failed - exception " + e.toString(), e);
         }
 
-        eng.init(false, privParameters);
+        eng.init(false, getPriv());
 
         try
         {
@@ -279,25 +351,14 @@ public class RSATest
             fail("failed - exception " + e.toString(), e);
         }
 
-        if (!edgeInput.equals(new String(Hex.encode(data))))
+        if (!Arrays.areEqual(getData(true), data))
         {
             fail("failed RAW edge Test");
         }
 
-        data = Hex.decode(input);
+        data = getInput(true);
 
-        eng.init(true, pubParameters);
-
-        try
-        {
-            data = eng.processBlock(data, 0, data.length);
-        }
-        catch (Exception e)
-        {
-            fail("failed - exception " + e.toString(), e);
-        }
-
-        eng.init(false, privParameters);
+        eng.init(true, getPub());
 
         try
         {
@@ -308,7 +369,18 @@ public class RSATest
             fail("failed - exception " + e.toString(), e);
         }
 
-        if (!input.equals(new String(Hex.encode(data))))
+        eng.init(false, getPriv());
+
+        try
+        {
+            data = eng.processBlock(data, 0, data.length);
+        }
+        catch (Exception e)
+        {
+            fail("failed - exception " + e.toString(), e);
+        }
+
+        if (!Arrays.areEqual(getInput(true), data))
         {
             fail("failed RAW Test");
         }
@@ -316,17 +388,16 @@ public class RSATest
     }
     
     public void testPKCS1PublicEncryptPrivateDecrypt() {
-    	if (! GWT.isProdMode()) return; //TODO smaller key for production (512 or less)
     	AsymmetricBlockCipher   eng = new PKCS1Encoding(new RSAEngine());
 
-        eng.init(true, pubParameters);
+        eng.init(true, getPub());
         
         if (eng.getOutputBlockSize() != ((PKCS1Encoding)eng).getUnderlyingCipher().getOutputBlockSize())
         {
             fail("PKCS1 output block size incorrect");
         }
 
-        byte[] data = getInput();
+        byte[] data = getInput(true);
         try
         {
             data = eng.processBlock(data, 0, data.length);
@@ -336,7 +407,7 @@ public class RSATest
             fail("failed - exception " + e.toString(), e);
         }
 
-        eng.init(false, privParameters);
+        eng.init(false, getPriv());
 
         try
         {
@@ -347,7 +418,7 @@ public class RSATest
             fail("failed - exception " + e.toString(), e);
         }
 
-        if (!input.equals(new String(Hex.encode(data))))
+        if (!Arrays.areEqual(getInput(true), data))
         {
             fail("failed PKCS1 public/private Test");
         }
@@ -355,11 +426,10 @@ public class RSATest
 
     public void testPKCS1PrivateEncryptPublicDecrypt()
     {
-    	if (! GWT.isProdMode()) return; //TODO smaller key for production (512 or less)
     	AsymmetricBlockCipher eng = new PKCS1Encoding(new RSAEngine());
 
-        eng.init(true, privParameters);
-        byte[] data = getInput();
+        eng.init(true, getPriv());
+        byte[] data = getInput(true);
         
         try
         {
@@ -370,7 +440,7 @@ public class RSATest
             fail("failed - exception " + e.toString(), e);
         }
 
-        eng.init(false, pubParameters);
+        eng.init(false, getPub());
 
         try
         {
@@ -381,20 +451,25 @@ public class RSATest
             fail("failed - exception " + e.toString(), e);
         }
 
-        if (!input.equals(new String(Hex.encode(data))))
+        if (!Arrays.areEqual(getInput(true), data))
         {
             fail("failed PKCS1 private/public Test");
         }
 
-        zeroBlockTest(pubParameters, privParameters);
-        zeroBlockTest(privParameters, pubParameters);
+        zeroBlockTest(getPub(), getPriv());
+        zeroBlockTest(getPriv(), getPub());
     }
 
         
     @Override
  	public void performTest()
     {
-        if (! GWT.isProdMode())
+    	/*
+    	 * Not in production even in chrome, takes too long and fails (probably generation
+    	 * issue)
+    	 */
+    	
+        if (! isProdMode())
         {
         	//Operation is infeasible for javascript
         	
@@ -417,7 +492,7 @@ public class RSATest
 	        }
 	
 	        eng.init(true, pair.getPublic());
-	        byte[] data = getInput();
+	        byte[] data = getInput(false);
 	
 	        try
 	        {
@@ -439,7 +514,7 @@ public class RSATest
 	            fail("failed - exception " + e.toString(), e);
 	        }
 	
-	        if (!input.equals(new String(Hex.encode(data))))
+	        if (!Arrays.areEqual(getInput(false), data))
 	        {
 	            fail("failed key generation (768) Test");
 	        }
@@ -476,7 +551,7 @@ public class RSATest
 	            fail("failed - exception " + e.toString(), e);
 	        }
 	
-	        if (!input.equals(new String(Hex.encode(data))))
+	        if (!Arrays.areEqual(getInput(false), data))
 	        {
 	            fail("failed key generation (1024) test");
 	        }
@@ -499,46 +574,87 @@ public class RSATest
         }
     }
     
+	/** 
+	 * If the test is running with shorter (production) key the test fails
+	 * for unknown reason (it fails in both pure java and production modes).<br>
+	 * Running the test in production mode with 1024bit key is infeasible.
+	 * 
+	 */
     public void testOAEP()
     {
-    	if (! GWT.isProdMode()) testOAEP(pubParameters, privParameters);
+    	if (! isProdMode()) testOAEP(pubParametersLong, privParametersLong);
     }
     
     public void testStrictPKCS1Length()
     {
-	    if (! GWT.isProdMode()) testStrictPKCS1Length(pubParameters, privParameters);
+    	//Not in production
+	    if (! isProdMode()) testStrictPKCS1Length(pubParametersLong, privParametersLong);
     }
     
     public void testDudPKCS1Block()
     {
-    	if (! GWT.isProdMode()) testDudPKCS1Block(pubParameters, privParameters);
+    	//Not in production
+    	if (! isProdMode()) testDudPKCS1Block(pubParametersLong, privParametersLong);
     }
     
     public void testMissingDataPKCS1Block()
     {
-    	if (! GWT.isProdMode()) testMissingDataPKCS1Block(pubParameters, privParameters);
+    	//Not in production
+    	if (! isProdMode()) testMissingDataPKCS1Block(pubParametersLong, privParametersLong);
     }
     
     public void testTruncatedPKCS1Block()
     {
-    	if (! GWT.isProdMode()) testTruncatedPKCS1Block(pubParameters, privParameters);
+    	//Not in production
+    	if (! isProdMode()) testTruncatedPKCS1Block(pubParametersLong, privParametersLong);
     }
     
     public void testWrongPaddingPKCS1Block()
     {
-    	if (! GWT.isProdMode()) testWrongPaddingPKCS1Block(pubParameters, privParameters);
+    	//Not in production
+    	if (! isProdMode()) testWrongPaddingPKCS1Block(pubParametersLong, privParametersLong);
     }
 
     public void testInitCheck()
     {
-	    try
-	    {
+	    try {
 	        new RSAEngine().processBlock(new byte[]{ 1 }, 0, 1);
 	        fail("failed initialisation check");
 	    }
-	    catch (IllegalStateException e)
-	    {
+	    catch (IllegalStateException e) {
 	        // expected
 	    }
+    }
+    
+    /**
+     * Just generates key constants for further testing and fails with the key as string
+     * If you want to generate the key uncomment the fail
+     */
+    public void testGenKey()
+    {
+    	if (GWT.isProdMode()) {
+    		assertTrue(true);
+    		return;
+    	}
+    	
+    	RSAKeyPairGenerator  pGen = new RSAKeyPairGenerator();
+    	RSAKeyGenerationParameters genParam = new RSAKeyGenerationParameters(
+	            BigInteger.valueOf(0x11), new SecureRandom(), 512, 25);
+    	pGen.init(genParam);
+    	AsymmetricCipherKeyPair key = pGen.generateKeyPair();
+    	RSAKeyParameters pub = (RSAKeyParameters)key.getPublic();
+    	RSAKeyParameters priv = (RSAKeyParameters)key.getPrivate();
+    	String modulus = pub.getModulus().toString();
+    	String pubExp = pub.getExponent().toString();
+    	String privExp = priv.getExponent().toString();
+    	
+    	assertNotNull(modulus);
+    	assertNotNull(pubExp);
+    	assertNotNull(privExp);
+    	
+    	/*fail(
+    			"Modulus: " + modulus + "\n" +
+    			"Private: " + privExp + "\n" +
+    			"Public : " + pubExp);*/
     }
 }

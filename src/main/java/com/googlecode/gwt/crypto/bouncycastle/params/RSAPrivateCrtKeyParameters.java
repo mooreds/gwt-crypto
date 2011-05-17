@@ -2,6 +2,14 @@ package com.googlecode.gwt.crypto.bouncycastle.params;
 
 import java.math.BigInteger;
 
+import com.googlecode.gwt.crypto.bouncycastle.engines.RSAEngine;
+
+/**
+ * Not really deprecated just untested, <b>use at your own risk</b>
+ * this key uses different computational approach in {@link RSAEngine}
+ * @author SHadoW
+ *
+ */
 public class RSAPrivateCrtKeyParameters
     extends RSAKeyParameters
 {
@@ -15,6 +23,7 @@ public class RSAPrivateCrtKeyParameters
     /**
      * 
      */
+    @Deprecated
     public RSAPrivateCrtKeyParameters(
         BigInteger  modulus,
         BigInteger  publicExponent,
