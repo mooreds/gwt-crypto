@@ -1,4 +1,4 @@
-package com.googlecode.gwt.crypto.bouncycastle.crypto;
+package com.googlecode.gwt.crypto.bouncycastle.util;
 
 /**
  * General array utilities.

@@ -17,6 +17,8 @@
 
 package com.googlecode.gwt.crypto.gwtx.io;
 
+import com.googlecode.gwt.crypto.util.Sys;
+
 /**
  * ByteArrayOutputStream is a class whose underlying stream is represented by a
  * byte array. As bytes are written to this stream, the local byte array may be
@@ -89,15 +91,9 @@ public class ByteArrayOutputStream extends OutputStream {
         }
 
 		byte[] newbuf = new byte[(count + i) * 2];
-		arraycopy(buf, 0, newbuf, 0, count);
+		Sys.arraycopy(buf, 0, newbuf, 0, count);
         buf = newbuf;
 	}
-
-    private static void arraycopy(byte[] buf, int i, byte[] newbuf, int i1, int count) {
-        for (int j=0; j < count; j++) {
-            newbuf[i + j] = buf[i1 + j];
-        }
-    }
 
     /**
 	 * Reset this ByteArrayOutputStream to the beginning of the underlying byte
@@ -127,7 +123,7 @@ public class ByteArrayOutputStream extends OutputStream {
 	 */
 	public synchronized byte[] toByteArray() {
 		byte[] newArray = new byte[count];
-		arraycopy(buf, 0, newArray, 0, count);
+		Sys.arraycopy(buf, 0, newArray, 0, count);
 		return newArray;
 	}
 
@@ -216,7 +212,7 @@ public class ByteArrayOutputStream extends OutputStream {
 					&& len <= buffer.length - offset) {
 				/* Expand if necessary */
 				expand(len);
-				arraycopy(buffer, offset, buf, this.count, len);
+				Sys.arraycopy(buffer, offset, buf, this.count, len);
 				this.count += len;
 			} else {
                 throw new IndexOutOfBoundsException(); //$NON-NLS-1$

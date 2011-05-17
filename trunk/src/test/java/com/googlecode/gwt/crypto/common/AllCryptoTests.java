@@ -7,11 +7,15 @@ import com.google.gwt.junit.tools.GWTTestSuite;
 import com.googlecode.gwt.crypto.bouncycastle.crypto.AESFastTest;
 import com.googlecode.gwt.crypto.bouncycastle.crypto.AESLightTest;
 import com.googlecode.gwt.crypto.bouncycastle.crypto.AESTest;
+import com.googlecode.gwt.crypto.bouncycastle.crypto.Base64Test;
 import com.googlecode.gwt.crypto.bouncycastle.crypto.DESTest;
 import com.googlecode.gwt.crypto.bouncycastle.crypto.DESedeTest;
+import com.googlecode.gwt.crypto.bouncycastle.crypto.EncoderTest;
+import com.googlecode.gwt.crypto.bouncycastle.crypto.HexTest;
 import com.googlecode.gwt.crypto.bouncycastle.crypto.NullTest;
 import com.googlecode.gwt.crypto.bouncycastle.crypto.PaddingTest;
 import com.googlecode.gwt.crypto.bouncycastle.crypto.RSATest;
+import com.googlecode.gwt.crypto.bouncycastle.crypto.UrlBase64Test;
 import com.googlecode.gwt.crypto.bouncycastle.digests.SHA1DigestTest;
 import com.googlecode.gwt.crypto.client.AESCipherTest;
 import com.googlecode.gwt.crypto.client.AESFastCipherTest;
@@ -49,7 +53,11 @@ public class AllCryptoTests extends GWTTestSuite {
 		suite.addTestSuite(NullTest.class);
 		suite.addTestSuite(PaddingTest.class);
 		suite.addTestSuite(RSATest.class);
-		//suite.addTestSuite(.class);
+		
+		suite.addTestSuite(UrlBase64Test.class);
+		suite.addTestSuite(HexTest.class);
+		suite.addTestSuite(Base64Test.class);
+		suite.addTestSuite(EncoderTest.class);
 		return suite;
 	}
 }

@@ -4,82 +4,71 @@ import com.googlecode.gwt.crypto.gwtx.io.ByteArrayOutputStream;
 import com.googlecode.gwt.crypto.gwtx.io.IOException;
 import com.googlecode.gwt.crypto.gwtx.io.OutputStream;
 
-public class Hex
+public class Base64
 {
-    private static final Encoder encoder = new HexEncoder();
+    private static final Encoder encoder = new Base64Encoder();
     
     /**
-     * encode the input data producing a Hex encoded byte array.
+     * encode the input data producing a base 64 encoded byte array.
      *
-     * @return a byte array containing the Hex encoded data.
+     * @return a byte array containing the base 64 encoded data.
      */
     public static byte[] encode(
         byte[]    data)
     {
-        return encode(data, 0, data.length);
-    }
-    
-    /**
-     * encode the input data producing a Hex encoded byte array.
-     *
-     * @return a byte array containing the Hex encoded data.
-     */
-    public static byte[] encode(
-        byte[]    data,
-        int       off,
-        int       length)
-    {
-        ByteArrayOutputStream    bOut = new ByteArrayOutputStream();
+        int len = (data.length + 2) / 3 * 4;
+        ByteArrayOutputStream bOut = new ByteArrayOutputStream(len);
         
         try
         {
-            encoder.encode(data, off, length, bOut);
+            encoder.encode(data, 0, data.length, bOut);
         }
         catch (IOException e)
         {
-            throw new RuntimeException("exception encoding Hex string: " + e);
+            throw new RuntimeException("exception encoding base64 string: " + e);
         }
         
         return bOut.toByteArray();
     }
 
     /**
-     * Hex encode the byte data writing it to the given output stream.
+     * Encode the byte data to base 64 writing it to the given output stream.
      *
      * @return the number of bytes produced.
      */
     public static int encode(
-        byte[]         data,
-        OutputStream   out)
+        byte[]                data,
+        OutputStream    out)
         throws IOException
     {
         return encoder.encode(data, 0, data.length, out);
     }
     
     /**
-     * Hex encode the byte data writing it to the given output stream.
+     * Encode the byte data to base 64 writing it to the given output stream.
      *
      * @return the number of bytes produced.
      */
     public static int encode(
-        byte[]         data,
-        int            off,
-        int            length,
-        OutputStream   out)
+        byte[]                data,
+        int                    off,
+        int                    length,
+        OutputStream    out)
         throws IOException
     {
         return encoder.encode(data, off, length, out);
     }
     
     /**
-     * decode the Hex encoded input data. It is assumed the input data is valid.
+     * decode the base 64 encoded input data. It is assumed the input data is valid.
      *
      * @return a byte array representing the decoded data.
      */
     public static byte[] decode(
         byte[]    data)
     {
-        ByteArrayOutputStream    bOut = new ByteArrayOutputStream();
+        int len = data.length / 4 * 3;
+        ByteArrayOutputStream bOut = new ByteArrayOutputStream(len);
         
         try
         {
@@ -87,21 +76,22 @@ public class Hex
         }
         catch (IOException e)
         {
-            throw new RuntimeException("exception decoding Hex string: " + e);
+            throw new RuntimeException("exception decoding base64 string: " + e);
         }
         
         return bOut.toByteArray();
     }
     
     /**
-     * decode the Hex encoded String data - whitespace will be ignored.
+     * decode the base 64 encoded String data - whitespace will be ignored.
      *
      * @return a byte array representing the decoded data.
      */
     public static byte[] decode(
         String    data)
     {
-        ByteArrayOutputStream    bOut = new ByteArrayOutputStream();
+        int len = data.length() / 4 * 3;
+        ByteArrayOutputStream bOut = new ByteArrayOutputStream(len);
         
         try
         {
@@ -109,20 +99,20 @@ public class Hex
         }
         catch (IOException e)
         {
-            throw new RuntimeException("exception decoding Hex string: " + e);
+            throw new RuntimeException("exception decoding base64 string: " + e);
         }
         
         return bOut.toByteArray();
     }
     
     /**
-     * decode the Hex encoded String data writing it to the given output stream,
+     * decode the base 64 encoded String data writing it to the given output stream,
      * whitespace characters will be ignored.
      *
      * @return the number of bytes produced.
      */
     public static int decode(
-        String          data,
+        String                data,
         OutputStream    out)
         throws IOException
     {

@@ -1,5 +1,6 @@
 package com.googlecode.gwt.crypto.bouncycastle.crypto;
 
+import com.googlecode.gwt.crypto.bouncycastle.util.Arrays;
 import com.googlecode.gwt.crypto.common.CryptoTest;
 
 public abstract class SimpleTest extends CryptoTest {
@@ -45,7 +46,6 @@ public abstract class SimpleTest extends CryptoTest {
     
     @Override
     public final String getName() {
-    	//TODO
     	return super.getName();
     }
     

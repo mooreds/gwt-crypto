@@ -4,12 +4,12 @@ import com.googlecode.gwt.crypto.bouncycastle.CipherParameters;
 import com.googlecode.gwt.crypto.bouncycastle.Digest;
 import com.googlecode.gwt.crypto.bouncycastle.InvalidCipherTextException;
 import com.googlecode.gwt.crypto.bouncycastle.Wrapper;
-import com.googlecode.gwt.crypto.bouncycastle.crypto.Arrays;
 import com.googlecode.gwt.crypto.bouncycastle.digests.SHA1Digest;
 import com.googlecode.gwt.crypto.bouncycastle.modes.CBCBlockCipher;
 import com.googlecode.gwt.crypto.bouncycastle.params.KeyParameter;
 import com.googlecode.gwt.crypto.bouncycastle.params.ParametersWithIV;
 import com.googlecode.gwt.crypto.bouncycastle.params.ParametersWithRandom;
+import com.googlecode.gwt.crypto.bouncycastle.util.Arrays;
 import com.googlecode.gwt.crypto.util.SecureRandom;
 
 /**

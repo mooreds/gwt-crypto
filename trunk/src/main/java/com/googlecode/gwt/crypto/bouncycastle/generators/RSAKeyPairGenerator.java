@@ -26,7 +26,8 @@ public class RSAKeyPairGenerator
         this.param = (RSAKeyGenerationParameters)param;
     }
 
-    @Override
+    @SuppressWarnings("deprecation")
+	@Override
 	public AsymmetricCipherKeyPair generateKeyPair()
     {
         BigInteger    p, q, n, d, e, pSub1, qSub1, phi;

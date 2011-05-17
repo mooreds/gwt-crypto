@@ -9,6 +9,11 @@ import com.googlecode.gwt.crypto.bouncycastle.params.ParametersWithRandom;
 import com.googlecode.gwt.crypto.util.SecureRandom;
 
 /**
+ * Not really deprecated just untested, <b>use at your own risk</b>.
+ * Tests perform successfully on Chrome but other browsers won't event
+ * finish in timeout period<br><br>
+ * <b>For more info:</b>
+ * @see com.googlecode.gwt.crypto.bouncycastle.crypto.RSATest#testOAEP() 
  * Optimal Asymmetric Encryption Padding (OAEP) - see PKCS 1 V 2.
  */
 public class OAEPEncoding
@@ -22,12 +27,14 @@ public class OAEPEncoding
     private SecureRandom            random;
     private boolean                 forEncryption;
 
+    @Deprecated
     public OAEPEncoding(
         AsymmetricBlockCipher   cipher)
     {
         this(cipher, new SHA1Digest(), null);
     }
     
+    @Deprecated
     public OAEPEncoding(
         AsymmetricBlockCipher       cipher,
         Digest                      hash)
@@ -35,6 +42,7 @@ public class OAEPEncoding
         this(cipher, hash, null);
     }
     
+    @Deprecated
     public OAEPEncoding(
         AsymmetricBlockCipher       cipher,
         Digest                      hash,
@@ -43,6 +51,7 @@ public class OAEPEncoding
         this(cipher, hash, hash, encodingParams);
     }
 
+    @Deprecated
     public OAEPEncoding(
         AsymmetricBlockCipher       cipher,
         Digest                      hash,
