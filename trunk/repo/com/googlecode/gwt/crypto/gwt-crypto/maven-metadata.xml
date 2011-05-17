@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="UTF-8"?><metadata>
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata>
   <groupId>com.googlecode.gwt.crypto</groupId>
   <artifactId>gwt-crypto</artifactId>
   <version>1.0.0-SNAPSHOT</version>
@@ -7,7 +8,10 @@
       <version>1.0.0-SNAPSHOT</version>
       <version>1.0.0-20070329.020748-1</version>
       <version>1.0.0</version>
+      <version>2.2.0-SNAPSHOT</version>
+      <version>2.1.0-SNAPSHOT</version>
+      <version>2.3.0-SNAPSHOT</version>
     </versions>
-    <lastUpdated>20070329022607</lastUpdated>
+    <lastUpdated>20110517172614</lastUpdated>
   </versioning>
 </metadata>

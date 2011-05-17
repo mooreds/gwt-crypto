@@ -2,14 +2,14 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.googlecode.gwt.crypto</groupId>
 	<artifactId>gwt-crypto</artifactId>
-	<version>2.3.0-SNAPSHOT</version>
+	<version>2.2.0-SNAPSHOT</version>
 	<name>GWT Crypto</name>
 	<description>
 		A partial port of the Bouncycastle J2ME crypto library with
 		parts taken from GWTx.
 	</description>
 	<properties>
-	    <gwt.version>2.3.0</gwt.version>
+	    <gwt.version>2.2.0</gwt.version>
 	    <gwt-maven.version>2.2.0</gwt-maven.version>
 	    <validation-api.version>1.0.0.GA</validation-api.version>
 	    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
