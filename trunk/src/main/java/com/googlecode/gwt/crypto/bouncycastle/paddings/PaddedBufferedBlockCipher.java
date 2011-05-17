@@ -214,7 +214,7 @@ public class PaddedBufferedBlockCipher
 
         if (len > gapLen)
         {
-        	Sys.arraycopyBytes(in, inOff, buf, bufOff, gapLen);
+        	Sys.arraycopy(in, inOff, buf, bufOff, gapLen);
 
             resultLen += cipher.processBlock(buf, 0, out, outOff);
 
@@ -231,7 +231,7 @@ public class PaddedBufferedBlockCipher
             }
         }
 
-        Sys.arraycopyBytes(in, inOff, buf, bufOff, len);
+        Sys.arraycopy(in, inOff, buf, bufOff, len);
 
         bufOff += len;
 
@@ -300,7 +300,7 @@ public class PaddedBufferedBlockCipher
             {
                 resultLen -= padding.padCount(buf);
 
-                Sys.arraycopyBytes(buf, 0, out, outOff, resultLen);
+                Sys.arraycopy(buf, 0, out, outOff, resultLen);
             }
             finally
             {

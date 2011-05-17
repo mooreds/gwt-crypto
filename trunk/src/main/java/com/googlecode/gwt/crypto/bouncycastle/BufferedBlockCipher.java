@@ -227,7 +227,7 @@ public class BufferedBlockCipher
 
         if (len > gapLen)
         {
-            Sys.arraycopyBytes(in, inOff, buf, bufOff, gapLen);
+            Sys.arraycopy(in, inOff, buf, bufOff, gapLen);
 
             resultLen += cipher.processBlock(buf, 0, out, outOff);
 
@@ -244,7 +244,7 @@ public class BufferedBlockCipher
             }
         }
 
-        Sys.arraycopyBytes(in, inOff, buf, bufOff, len);
+        Sys.arraycopy(in, inOff, buf, bufOff, len);
 
         bufOff += len;
 
@@ -288,7 +288,7 @@ public class BufferedBlockCipher
             cipher.processBlock(buf, 0, buf, 0);
             resultLen = bufOff;
             bufOff = 0;
-            Sys.arraycopyBytes(buf, 0, out, outOff, resultLen);
+            Sys.arraycopy(buf, 0, out, outOff, resultLen);
         }
         else if (bufOff != 0)
         {

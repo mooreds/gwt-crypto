@@ -12,7 +12,7 @@ public class SysTest extends CryptoTest {
 	public void testCopyAllBytes() {
 		byte[] a1 = { 1, 2, 3 };
 		byte[] a2 = new byte[a1.length];
-		Sys.arraycopyBytes(a1, 0, a2, 0, a1.length);
+		Sys.arraycopy(a1, 0, a2, 0, a1.length);
 		assertEquals(1, a2[0]);
 		assertEquals(2, a2[1]);
 		assertEquals(3, a2[2]);
@@ -21,7 +21,7 @@ public class SysTest extends CryptoTest {
 	public void testCopyAllInts() {
 		int[] a1 = { 1, 2, 3 };
 		int[] a2 = new int[a1.length];
-		Sys.arraycopyInt(a1, 0, a2, 0, a1.length);
+		Sys.arraycopy(a1, 0, a2, 0, a1.length);
 		assertEquals(1, a2[0]);
 		assertEquals(2, a2[1]);
 		assertEquals(3, a2[2]);
@@ -29,7 +29,7 @@ public class SysTest extends CryptoTest {
 	public void testCopyAllBytesBig() {
 		byte[] a1 = { 1, 2, 3, 4, 5 ,6 ,7, 8, 9, 10 ,11 ,12 ,13 ,14 ,15 ,16 ,17,18,19,20,21,22,23,24 };
 		byte[] a2 = new byte[a1.length];
-		Sys.arraycopyBytes(a1, 0, a2, 0, a1.length);
+		Sys.arraycopy(a1, 0, a2, 0, a1.length);
 		assertEquals(1, a2[0]);
 		assertEquals(2, a2[1]);
 		assertEquals(3, a2[2]);

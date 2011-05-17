@@ -28,7 +28,7 @@ public class ParametersWithIV
         this.iv = new byte[ivLen];
         this.parameters = parameters;
 
-        Sys.arraycopyBytes(iv, ivOff, this.iv, 0, ivLen);
+        Sys.arraycopy(iv, ivOff, this.iv, 0, ivLen);
     }
 
     public byte[] getIV()
