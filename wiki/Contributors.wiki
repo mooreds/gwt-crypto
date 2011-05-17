@@ -9,3 +9,4 @@ Here's a list of contributors.  This project is actively maintained, but not act
   * *b.malini* identified bug and fix for encrypt/decrypt longer than 7 chars
   * *stsefanenko* identified bug and fix for multilingual encrypt/decrypt 
   * *emmanuel@bardet.org* identified maven repo bug
+  * *shadow* added AES and RSA engines
