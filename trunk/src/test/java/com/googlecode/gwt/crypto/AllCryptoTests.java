@@ -1,4 +1,4 @@
-package com.googlecode.gwt.crypto.common;
+package com.googlecode.gwt.crypto;
 
 import junit.framework.Test;
 import junit.framework.TestSuite;
@@ -23,6 +23,7 @@ import com.googlecode.gwt.crypto.client.AESLightCipherTest;
 import com.googlecode.gwt.crypto.client.RijndaelCipherTest;
 import com.googlecode.gwt.crypto.client.TripleDesCipherTest;
 import com.googlecode.gwt.crypto.client.TripleDesKeyGeneratorTest;
+import com.googlecode.gwt.crypto.common.BootTest;
 import com.googlecode.gwt.crypto.util.StrTest;
 import com.googlecode.gwt.crypto.util.SysTest;
 
