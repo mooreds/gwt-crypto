@@ -128,13 +128,13 @@
 		<developerConnection>scm:svn:https://gwt-crypto.googlecode.com/svn/trunk</developerConnection>
 		<url>http://gwt-crypto.googlecode.com/svn/</url>
 	</scm>
-<!-- 	<distributionManagement> -->
-<!-- 		<repository> -->
-<!-- 			<id>svn.repo</id> -->
-<!-- 			<name>Checked in repo</name> -->
-<!-- 			<url>file://${basedir}/repo</url> -->
-<!-- 		</repository> -->
-<!-- 	</distributionManagement> -->
+	<distributionManagement>
+		<repository>
+			<id>svn.repo</id>
+			<name>Checked in repo</name>
+			<url>file://${basedir}/repo</url>
+		</repository>
+	</distributionManagement>
 	<reporting>
 		<plugins>
 			<plugin>
