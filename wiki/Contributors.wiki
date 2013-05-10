@@ -1,4 +1,5 @@
 #summary List of contributors
+#labels Phase-Support
 
 Here's a list of contributors.  This project is actively maintained, but not actively developed, so if you see a bug, please try to file an issue and let us know.
 
@@ -10,3 +11,4 @@ Here's a list of contributors.  This project is actively maintained, but not act
   * *stsefanenko* identified bug and fix for multilingual encrypt/decrypt 
   * *emmanuel@bardet.org* identified maven repo bug
   * *shadow* added AES and RSA engines
+  * *wokier* released on Maven Central
