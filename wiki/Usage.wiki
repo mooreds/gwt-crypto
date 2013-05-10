@@ -55,7 +55,7 @@ For maven users, using the gwt-crypto library should be fairly easy and for othe
 </dependencies>
 }}}
 
-==Before gwt-crypto 2.3.0===
+===Before gwt-crypto 2.3.0===
 First add the repo to your repo list:
 {{{
 <repositories>
