@@ -1,0 +1,13 @@
+com.googlecode.gwt.crypto.bouncycastle
+com.googlecode.gwt.crypto.bouncycastle.digests
+com.googlecode.gwt.crypto.bouncycastle.encodings
+com.googlecode.gwt.crypto.bouncycastle.engines
+com.googlecode.gwt.crypto.bouncycastle.generators
+com.googlecode.gwt.crypto.bouncycastle.modes
+com.googlecode.gwt.crypto.bouncycastle.paddings
+com.googlecode.gwt.crypto.bouncycastle.params
+com.googlecode.gwt.crypto.bouncycastle.util
+com.googlecode.gwt.crypto.bouncycastle.util.encoders
+com.googlecode.gwt.crypto.client
+com.googlecode.gwt.crypto.gwtx.io
+com.googlecode.gwt.crypto.util

@@ -1,0 +1,11 @@
+<module>
+	<!-- Inherit the core Web Toolkit stuff.                  -->
+	<inherits name='com.google.gwt.user.User'/>
+
+	<inherits name='com.googlecode.gwt.crypto.Crypto'/>
+
+	<source path="bouncycastle" />
+	<source path="util" />
+	<source path="client" />
+	<source path="common" />
+</module>
