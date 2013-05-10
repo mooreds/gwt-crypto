@@ -1,4 +1,5 @@
 #summary Code examples and maven info
+#labels Phase-Implementation
 
 = Code = 
 
@@ -37,12 +38,9 @@ try {
 }
 }}}
 
-= Maven Usage =
+= Install =
 
-For maven users, using the gwt-crypto library should be fairly easy and for others you can download the jar file and deploy it in whatever format you have defined.
-
-= gwt-crypto Usage =
-
+== Maven ==
 
 ===Starting with gwt-crypto 2.3.0===
 {{{
@@ -76,3 +74,7 @@ Then add the dependency:
     </dependency>
 </dependencies>
 }}}
+
+==non-Maven Usage==
+
+Non-Maven users can download the jar from the download tab and deploy it in whatever format you have defined.
