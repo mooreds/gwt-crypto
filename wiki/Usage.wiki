@@ -40,6 +40,11 @@ try {
 
 = Install =
 
+Declare the module
+{{{
+<inherits name="com.googlecode.gwt.crypto.Crypto"/> 
+}}}
+
 == Maven ==
 
 ===Starting with gwt-crypto 2.3.0===
